@@ -7,10 +7,10 @@ Domain:JAVA PROGRAMMING
 Duration:July to August   
 Mentor:NEELA SANTHOSH KUMAR   
 
-OVERVIEW OF THE PROJECT
+OVERVIEW OF THE PROJECT  
 PROJECT TITLE:STUDENT GRADE MANAGER
-Main Menu:
 
+Main Menu:
 The main method provides a menu for the user to interact with the system.
 Add Grades:
 addGrades() allows the user to input grades for a student. The user can input multiple grades, and the input process stops when the user types "done".
