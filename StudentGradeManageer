@@ -1,0 +1,132 @@
+import java.util.*;
+
+public class StudentGradeManager {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Map<String, List<Double>> studentGrades = new HashMap<>();
+
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\nStudent Grade Manager Menu:");
+            System.out.println("1. Add Grades");
+            System.out.println("2. Calculate Average Grade");
+            System.out.println("3. Display Grades");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addGrades();
+                    break;
+                case 2:
+                    calculateAverageGrade();
+                    break;
+                case 3:
+                    displayGrades();
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void addGrades() {
+        System.out.print("Enter student name: ");
+        String studentName = scanner.nextLine();
+        
+        List<Double> grades = studentGrades.getOrDefault(studentName, new ArrayList<>());
+        
+        while (true) {
+            System.out.print("Enter grade (or type 'done' to finish): ");
+            String input = scanner.nextLine();
+            
+            if (input.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            try {
+                double grade = Double.parseDouble(input);
+                if (grade < 0 || grade > 100) {
+                    System.out.println("Grade must be between 0 and 100.");
+                } else {
+                    grades.add(grade);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a numeric grade.");
+            }
+        }
+
+        studentGrades.put(studentName, grades);
+        System.out.println("Grades added successfully.");
+    }
+
+    private static void calculateAverageGrade() {
+        System.out.print("Enter student name: ");
+        String studentName = scanner.nextLine();
+        
+        List<Double> grades = studentGrades.get(studentName);
+        if (grades == null || grades.isEmpty()) {
+            System.out.println("No grades found for this student.");
+            return;
+        }
+
+        double sum = 0;
+        for (double grade : grades) {
+            sum += grade;
+        }
+        
+        double average = sum / grades.size();
+        System.out.printf("Average grade: %.2f\n", average);
+        System.out.println("Letter grade: " + getLetterGrade(average));
+        System.out.println("GPA: " + getGPA(average));
+    }
+
+    private static void displayGrades() {
+        System.out.print("Enter student name: ");
+        String studentName = scanner.nextLine();
+        
+        List<Double> grades = studentGrades.get(studentName);
+        if (grades == null || grades.isEmpty()) {
+            System.out.println("No grades found for this student.");
+            return;
+        }
+
+        System.out.println("Grades for " + studentName + ":");
+        for (double grade : grades) {
+            System.out.printf("%.2f\n", grade);
+        }
+    }
+
+    private static String getLetterGrade(double average) {
+        if (average >= 90) {
+            return "A";
+        } else if (average >= 80) {
+            return "B";
+        } else if (average >= 70) {
+            return "C";
+        } else if (average >= 60) {
+            return "D";
+        } else {
+            return "F";
+        }
+    }
+
+    private static double getGPA(double average) {
+        if (average >= 90) {
+            return 4.0;
+        } else if (average >= 80) {
+            return 3.0;
+        } else if (average >= 70) {
+            return 2.0;
+        } else if (average >= 60) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+}
